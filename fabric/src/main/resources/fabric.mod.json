@@ -1,0 +1,27 @@
+{
+	"schemaVersion": 1,
+	"id": "xai-ac",
+	"version": "${version}",
+	"name": "Xai-AC",
+    "description": "Server Side of the XaiAC mod, players will be forced to install the client-side mod",
+    "authors": [
+    "_Xai"
+    ],
+    "contact": {
+    "discord": "xaibot12"
+    },
+	"license": "CC0-1.0",
+	"icon": "assets/xai-ac/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"xai.xaiacserver.XaiACServer"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.18.4",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

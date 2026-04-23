@@ -1,0 +1,28 @@
+{
+  "kick_timeout_seconds": 10,
+  "recheck_interval_seconds": 60,
+  "timestamp_tolerance_seconds": 30,
+  "client_ec_public_key_hex": "4744073bafe08da674a95b4ee07610260fec08cd1cae57fab6d36cd19848dae6b3203ccdfebc1a661c7eb0c67845deaa3b3c2d0d20a2f15596e79788d77e6f27",
+  "mod_mode": "blacklist",
+  "pack_mode": "blacklist",
+  "allowed_mods": [],
+  "mod_hashes": {},
+  "banned_mods": [],
+  "allowed_packs": ["Default"],
+  "banned_packs": ["xray"],
+  "pack_hashes": {},
+  "punishment_modes": {
+    "MOD_UNLISTED":         "kick",
+    "MOD_HASH_MISMATCH":    "kick",
+    "PACK_BLACKLISTED":     "kick",
+    "PACK_NOT_WHITELISTED": "kick",
+    "PACK_HASH_MISMATCH":   "kick",
+    "MODULE_NO_PATH":       "kick",
+    "MODULE_TEMP_PATH":     "kick",
+    "SELF_HASH_MISMATCH":   "kick",
+    "BYTECODE_TAMPERED":    "kick",
+    "DLL_CODE_TAMPERED":    "kick",
+    "CRYPTO_INVALID":       "kick"
+  },
+  "bypassed_players": {}
+}

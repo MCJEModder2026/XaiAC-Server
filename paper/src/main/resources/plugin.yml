@@ -1,0 +1,11 @@
+name: XaiACServer
+version: '${version}'
+main: xai.xaiacserver.XaiACPlugin
+api-version: '1.21'
+description: Server-side of XaiAC (Users are forced to download the client-side mod)
+authors: [ _Xai ]
+
+commands:
+  xaiac:
+    description: XaiAC admin commands
+    permission: xaiac.admin
