@@ -25,7 +25,7 @@ public class Encrypt {
      * ECIES encrypt: generates an ephemeral P-256 keypair, performs ECDH with the
      * client's static public key, derives aesKey = SHA-256(sharedSecret), and
      * encrypts with AES-256-GCM.
-     *
+     * <p>
      * Returns a JSON string {"epk":"...","iv":"...","ct":"..."} where:
      *   epk = base64(X||Y) of the ephemeral public key (64 bytes)
      *   iv  = base64 of 12-byte GCM nonce

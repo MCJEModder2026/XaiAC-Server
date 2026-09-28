@@ -3,7 +3,6 @@ package xai.xaiacserver.networking;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.minecraft.server.level.ServerPlayer;
-import xai.xaiacserver.XaiACServer;
 import xai.xaiacserver.crypto.Decrypt;
 import xai.xaiacserver.handshake.HandshakeManager;
 import xai.xaiacserver.handshake.Session;

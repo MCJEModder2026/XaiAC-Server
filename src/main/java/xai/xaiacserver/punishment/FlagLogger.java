@@ -95,7 +95,7 @@ public class FlagLogger {
         Path file = root().resolve("players").resolve(uuid + ".jsonl");
         if (!Files.exists(file)) return Collections.emptyList();
         List<String> result = new ArrayList<>();
-        Pattern entry = Pattern.compile("\"t\":\"([^\"]+)\".*?\"f\":\\[([^\\]]*)]");
+        Pattern entry = Pattern.compile("\"t\":\"([^\"]+)\".*?\"f\":\\[([^]]*)]");
         Instant now = Instant.now();
         try {
             List<String> lines = Files.readAllLines(file);

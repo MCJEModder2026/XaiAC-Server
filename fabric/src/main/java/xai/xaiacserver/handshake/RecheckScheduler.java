@@ -7,6 +7,7 @@ import xai.xaiacserver.punishment.Punisher;
 public class RecheckScheduler {
 
     public static void tick(MinecraftServer server) {
+        //TODO: investigate potential CME caused by this. I tampered with my client and managed to crash the server with a CME originating from this
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
             Session session = SessionManager.get(player.getUUID());
             if (session == null) continue;

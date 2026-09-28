@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.IpBanListEntry;
+//? if minecraft: >=1.21.11
 import net.minecraft.server.players.NameAndId;
 import net.minecraft.server.players.UserBanListEntry;
 import xai.xaiacserver.punishment.FlagLogger;
@@ -31,7 +32,7 @@ public class EnforceCommand {
                         return builder.buildFuture();
                     })
                     .then(Commands.literal("view")
-                        .executes(ctx -> viewPlayerOffenses(ctx))
+                        .executes(EnforceCommand::viewPlayerOffenses)
                     )
                 )
             )
@@ -47,7 +48,7 @@ public class EnforceCommand {
                     })
                     .executes(ctx -> {
                         String checkName = StringArgumentType.getString(ctx, "checkname");
-                        String action    = StringArgumentType.getString(ctx, "action");
+                        String action = StringArgumentType.getString(ctx, "action");
 
                         if (action.equals("view")) {
                             Map<UUID, String> entries = FlagLogger.readCheckEntries(checkName);
@@ -90,15 +91,29 @@ public class EnforceCommand {
                             String flagDisplay = checkName + (detail.isEmpty() ? "" : ": " + detail);
 
                             if (action.equals("ban")) {
-                                if (server.getPlayerList().getBans().isBanned(new NameAndId(new GameProfile(uuid, "")))) {
+                                if (server.getPlayerList().getBans().isBanned(
+                                    //? if minecraft:>=1.21.11
+                                    new NameAndId(
+                                        new GameProfile(uuid, "")
+                                        //? if minecraft: >=1.21.11
+                                    )
+                                )) {
                                     alreadyBanned++;
                                     continue;
                                 }
                                 String name = FlagLogger.readPlayerName(uuid);
                                 if (name == null) name = uuid.toString();
                                 server.getPlayerList().getBans().add(
-                                    new UserBanListEntry(new NameAndId(new GameProfile(uuid, name)),
-                                        null, "[XaiAC]", null, reason));
+                                    new UserBanListEntry(
+                                        //? if minecraft:>=1.21.11
+                                        new NameAndId(
+                                            new GameProfile(uuid, name)
+                                            //? if minecraft: >=1.21.11
+                                        )
+                                        ,
+                                        null, "[XaiAC]", null, reason
+                                    )
+                                );
                                 ServerPlayer online = server.getPlayerList().getPlayer(uuid);
                                 if (online != null)
                                     online.connection.disconnect(Component.literal("[XaiAC] " + reason));
@@ -106,7 +121,10 @@ public class EnforceCommand {
                                 banned++;
                             } else {
                                 ServerPlayer online = server.getPlayerList().getPlayer(uuid);
-                                if (online == null) { skipped++; continue; }
+                                if (online == null) {
+                                    skipped++;
+                                    continue;
+                                }
                                 String ip = ((InetSocketAddress) online.connection
                                     .getRemoteAddress()).getAddress().getHostAddress();
                                 if (server.getPlayerList().getIpBans().isBanned(ip)) {
@@ -170,7 +188,9 @@ public class EnforceCommand {
         try { return UUID.fromString(target); } catch (IllegalArgumentException ignored) {}
         ServerPlayer online = server.getPlayerList().getPlayerByName(target);
         if (online != null) return online.getUUID();
+        //~ if minecraft:>=1.21.11 'getProfileCache()' -> 'services().nameToIdCache()'
         return server.services().nameToIdCache().get(target)
+            //~ if minecraft:>=1.21.11 'GameProfile::getId' -> 'NameAndId::id'
             .map(NameAndId::id)
             .orElse(null);
     }

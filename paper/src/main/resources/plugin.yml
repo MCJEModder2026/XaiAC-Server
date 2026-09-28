@@ -1,5 +1,5 @@
 name: XaiACServer
-version: '${version}'
+version: '${mod_version}'
 main: xai.xaiacserver.XaiACPlugin
 api-version: '1.21'
 description: Server-side of XaiAC (Users are forced to download the client-side mod)

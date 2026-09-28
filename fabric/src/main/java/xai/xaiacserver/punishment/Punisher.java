@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+//? if minecraft:>=1.21.11
 import net.minecraft.server.players.NameAndId;
 import net.minecraft.server.players.UserBanListEntry;
 import xai.xaiacserver.XaiACServer;
@@ -24,23 +25,33 @@ public class Punisher {
     public static void punish(ServerPlayer player, List<String> flags) {
         FlagLogger.logFlags(player.getUUID(), player.getName().getString(), flags);
 
-        String mode   = resolveMode(flags);
+        String mode = resolveMode(flags);
         String reason = String.join(", ", flags);
 
         switch (mode) {
             case "ban" -> {
                 if (XaiACServer.SERVER != null) {
-                    XaiACServer.SERVER.getPlayerList().getBans().add(new UserBanListEntry(new NameAndId(player.getGameProfile()), null, "[XaiAC]", null, reason));
+                    XaiACServer.SERVER.getPlayerList().getBans().add(new UserBanListEntry(
+                        //? if minecraft: >=1.21.11
+                        new NameAndId(
+                            player.getGameProfile()
+                            //? if minecraft: >=1.21.11
+                        )
+                        ,
+                        null, "[XaiAC]", null, reason
+                    ));
                 }
                 player.connection.disconnect(Component.literal("[XaiAC] " + reason));
                 FlagLogger.logBan(player.getName().getString(), flags);
             }
             case "kick" -> player.connection.disconnect(Component.literal("[XaiAC] " + reason));
-            case "log"  -> XaiACServer.LOGGER.warn("Player {} flagged: {}", player.getName().getString(), reason);
+            case "log" -> XaiACServer.LOGGER.warn("Player {} flagged: {}", player.getName().getString(), reason);
         }
     }
 
-    /** Kicks a player whose verification window expired without a valid RESPONSE. */
+    /**
+     * Kicks a player whose verification window expired without a valid RESPONSE.
+     */
     public static void kickTimeout(ServerPlayer player) {
         FlagLogger.logTimeout(player.getUUID(), player.getName().getString());
         player.connection.disconnect(Component.literal("[XaiAC] Anticheat timeout"));
@@ -61,12 +72,12 @@ public class Punisher {
 
     private static String resolveMode(List<String> flags) {
         return flags.stream()
-                .map(f -> Config.getPunishmentMode(stripFlagDetail(f)))
-                .max(Comparator.comparingInt(m -> {
-                    int idx = SEVERITY_ORDER.indexOf(m);
-                    return idx == -1 ? 1 : idx;
-                }))
-                .orElse("kick");
+            .map(f -> Config.getPunishmentMode(stripFlagDetail(f)))
+            .max(Comparator.comparingInt(m -> {
+                int idx = SEVERITY_ORDER.indexOf(m);
+                return idx == -1 ? 1 : idx;
+            }))
+            .orElse("kick");
     }
 
     private static String stripFlagDetail(String flag) {

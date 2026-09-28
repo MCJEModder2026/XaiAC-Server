@@ -2,6 +2,7 @@
 
 .gradle/
 build/
+run/
 out/
 classes/
 
@@ -27,10 +28,6 @@ bin/
 # macos
 
 *.DS_Store
-
-# fabric
-
-run/
 
 # java
 
